@@ -1,0 +1,1597 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/YounaAzimi/git-project-one/blob/main/data%20mining\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "nviA814edopd"
+      },
+      "source": [
+        "<font face=\"B Mitra\" size=4>\n",
+        "<div dir=rtl align=center>\n",
+        "<br>\n",
+        "<img src=\"https://aut.ac.ir/templates/tmpl_modern01/images/logo_fa.png\" alt=\"Amirkabir University Logo\" width=\"100\">\n",
+        "<br>\n",
+        "<font size=6>\n",
+        "<b>پروژه اول داده کاوی</b>\n",
+        "<br>\n",
+        "<font size=5> استاد درس: دکتر فاطمه شاکری\n",
+        "<br>\n",
+        "<font size=5> طراحان پروژه: مهدی غیاثی، سینا ارزبین\n",
+        "<br>\n",
+        "<font size=4> پاییز ۱۴۰۳\n",
+        "<hr>\n",
+        "</div>\n",
+        "</font>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "V3kRcWHodopf"
+      },
+      "source": [
+        "<font face=\"B Nazanin\">\n",
+        "<div dir=rtl>\n",
+        "<p align=\"justify\">\n",
+        "<font size=5><font color='#eb4034'>\n",
+        "توجه داشته باشید علاوه بر پیاده سازی خواسته شده، توضیحات لازم در محل تعریف شده را بیان کنید.\n",
+        "</p>\n",
+        "</font>\n",
+        "</div>\n",
+        "</font>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "0BXWVb5Gdopf"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h2>\n",
+        "<font face=\"B Nazanin\" color=\"#0099cc\">\n",
+        "بارگذاری کتابخانه های مورد نیاز"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "u5g5lC_wM-6t"
+      },
+      "source": [
+        "<font face=\"B Nazanin\">\n",
+        "<div dir=rtl>\n",
+        "<p align=\"justify\">\n",
+        "<font size=4><font color='#eb4034'>\n",
+        "شما تنها مجاز به استفاده از کتابخانه‌های import شده در سلول زیر هستید.\n",
+        "</p>\n",
+        "</font>\n",
+        "</div>\n",
+        "</font>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "B31gxsfydopg"
+      },
+      "outputs": [],
+      "source": [
+        "#from google.colab import files\n",
+        "#uploaded = files.upload()\n",
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "import seaborn as sns\n",
+        "import matplotlib.image as mpimg\n",
+        "from sklearn.preprocessing import StandardScaler\n",
+        "from scipy.stats import skew\n",
+        "%config InlineBackend.figure_formats = ['svg']"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "j-7ryZdcdoph"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h2>\n",
+        "<font face=\"B Nazanin\" color=\"#0099cc\">\n",
+        "بارگذاری مجموعه داده"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "1KmLCEN4doph"
+      },
+      "outputs": [],
+      "source": [
+        "data = pd.read_csv('apartment_rent.csv')\n",
+        "data.head()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "nIhDVgx3dopi"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h2>\n",
+        "<font face=\"B Nazanin\" color=\"#0099cc\">\n",
+        "پیش پردازش\n",
+        "</font>\n",
+        "</h2>\n",
+        "\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "ابعاد داده را چاپ کنید.\n",
+        "</font>\n",
+        "</p>\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "lfD0y7y1dopi"
+      },
+      "outputs": [],
+      "source": [
+        "data.shape"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "DqTGQi42dopj"
+      },
+      "source": [
+        "\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "رکوردهای تکراری را در مجموعه داده بررسی کنید و درصورت نیاز حذف کنید.\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "GXZweW32dopk"
+      },
+      "outputs": [],
+      "source": [
+        "duplicates = data[data.duplicated()]\n",
+        "print(duplicates)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "wlV9hRs3dopk"
+      },
+      "outputs": [],
+      "source": [
+        "data.drop_duplicates()\n",
+        "duplicates = data[data.duplicated()]\n",
+        "print(duplicates)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "mIwkkE85dopm"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "در حال حاضر ویژگی <code>title</code> ارزش اطلاعاتی ندارد، این ستون را حذف کنید.\n",
+        "\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "tKyZ5-2Rdopm"
+      },
+      "outputs": [],
+      "source": [
+        "data.drop('title', axis=1, inplace=True)\n",
+        "data.head()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "GLTabOEjdopn"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        " مقادیر گمشده را در مجموعه داده بررسی کنید.\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "MRe0PykSdopn"
+      },
+      "outputs": [],
+      "source": [
+        "missing_data = data.isnull()\n",
+        "missing_data.head()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "O3GaHMHNdopn"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h4>\n",
+        "<font face=\"B Nazanin\">\n",
+        "<b>مدیریت مقادیر گم‌شده</b>\n",
+        "</font>\n",
+        "</h4>\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "ستون <code>amenities</code> که نشان‌دهنده‌ی امکانات رفاهی خانه‌ها است، مقادیر گم‌‌شده‌ی بسیار زیادی دارد.\n",
+        "در مورد این ویژگی خاص، نمی‌توان قضاوت نمود که آیا مقادیر واقعا گم‌شده هستند یا اینکه هیچ‌گونه امکانات رفاهی برای یک آگهی ثبت نشده است.\n",
+        "به هر حال مقادیر گم‌شده این ویژگی را با مقدار <code>'none advertised'</code> جایگزین کنید.\n",
+        "<br>\n",
+        "ستون <code>pets_allowed</code> نیز وضعیت مشابهی با ستون <code>amenities</code> دارد. مقادیر گم‌شده این ستون را با مقدار پیش‌فرض <code>No</code>\n",
+        "جایگزین کنید.  </font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "G57FomLrdopo"
+      },
+      "outputs": [],
+      "source": [
+        "data['amenities'].fillna('none advertised', inplace=True)\n",
+        "data.head()\n",
+        "data['pets_allowed'].fillna('No', inplace=True)\n",
+        "data.head()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "D3bM-4c0dopo"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "مقادیر گم‌شده ستون‌های <code>bathrooms</code> و <code>bedrooms</code> را قصد داریم با یکی از سه معیار آماری میانگین، میانه یا مد ستون‌ها پر کنیم.\n",
+        "<br>\n",
+        "</font>\n",
+        "</p>\n",
+        "\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "به نظر شما کدام معیار آماری برای پر کردن مقادیر گم‌شده این ستون‌ها مناسب است؟ چرا؟\n",
+        "در ادامه با معیار گفته شده مقادیر گم‌شده را پر کنید.\n",
+        "<br>\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "93-D-3Epdopo"
+      },
+      "outputs": [],
+      "source": [
+        "data['bathrooms'].fillna(data['bathrooms'].mean(), inplace=True)\n",
+        "data.head()\n",
+        "data['bedrooms'].fillna(data['bedrooms'].mean(), inplace=True)\n",
+        "data.head()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "0TywY0jndopo"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\">\n",
+        "<p align=\"justify\">\n",
+        "<font size=4>\n",
+        "<b> <font color='#eb4034'> توضیحات پاسخ: </font></b>  لطفا اینجا بنویسید\n",
+        "</p>\n",
+        "</font>\n",
+        "</div>\n",
+        "</font>\n",
+        "<hr>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "داده های گمشده را با میانگین جایگذاری میکنیم تا تاثیری روی داده های ما نداشته باشد"
+      ],
+      "metadata": {
+        "id": "-Y2r7cCMtxXg"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Ixyff8Q2dopp"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "پس از آن سطرهایی که مقدار <code>cityname</code> یا <code>latitude</code> یا <code>price</code> آن‌ها خالی است را حذف کنید.\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "aaP93i3_dopp"
+      },
+      "outputs": [],
+      "source": [
+        "data = data.dropna(subset = ['cityname', 'latitude' , 'price'])"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "FNHYAFhhdopp"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "حال در صورتی که به درستی بخش‌های قبلی را انجام داده باشید، دیتافریم باید 99399 سطر داشته باشد و هیچ مقدار گم‌شده‌ای نداشته باشیم. با متد <code>()info</code> اطلاعات دیتافریم را بررسی کنید.\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "E_P8sMdidopp"
+      },
+      "outputs": [],
+      "source": [
+        "data_clean = data[data['price'].notnull()]\n",
+        "missing_data_count = data_clean.isnull().sum()\n",
+        "print(missing_data_count)\n",
+        "rows_with_missing_data = data[data.isnull().any(axis=1)]\n",
+        "print(rows_with_missing_data)\n",
+        "data.info()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "lKMMnRmMdopq"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "ویژگی\n",
+        "<code>time</code>\n",
+        "به فرمت Unix Time ذخیره شده است که نوع دادهٔ مناسبی برای تحلیل سایر ویژگی‌ها بر اساس تاریخ نیست.\n",
+        "ابتدا آن را به قالبی مناسب در آوردیم.\n",
+        "<br>\n",
+        "\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "zpjXEIItdopq"
+      },
+      "outputs": [],
+      "source": [
+        "data['time'] = pd.to_datetime(data['time'], unit='s')\n",
+        "data.head()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "jHIPNR-Ddopr"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "هر یک از مقادیر روز هفته، ماه و سال را از ویژگی\n",
+        "<code>time</code>\n",
+        "استخراج کنید و در یک ستون جداگانه قرار دهید تا بتوانیم تحلیل هایی در ارتباط با تاریخ در ادامه انجام دهیم.\n",
+        "<br>\n",
+        "درنهایت ستون\n",
+        "<code>time</code>\n",
+        "را حذف کنید.\n",
+        "\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "SzhUfiRPdopr"
+      },
+      "outputs": [],
+      "source": [
+        "data['year'] = data['time'].dt.year\n",
+        "data['month'] = data['time'].dt.month\n",
+        "data['weekday'] = data['time'].dt.weekday\n",
+        "data['day'] = data['time'].dt.day\n",
+        "data.drop('time', axis=1, inplace=True)\n",
+        "data.head()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "f-L7MNMfdopr"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h4>\n",
+        "<font face=\"B Nazanin\">\n",
+        "<b>مدیریت داده‌های پرت</b>\n",
+        "</font>\n",
+        "</h4>\n",
+        "\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "ممکن است خانه‌هایی بسیار بزرگ یا بسیار گران باشند یا برعکس، خانه‌‌هایی باشند که بیش از حد ارزان یا کوچک بوده و فاصله‌ی بسیاری با میانگین داشته‌ باشند. در بعضی امور تحلیل داده‌ای، داده‌های پرت می‌توانند نتایج را به نحو نامطلوب تحت تاثیر قرار دهند.\n",
+        "برای مثال، داده‌های پرت می‌توانند باعث غلط‌انداز و یا نامفهوم شدن نمودار‌ها شوند و یا الگوریتم‌های یادگیری ماشین را به اشتباه بیاندازند.\n",
+        "در این قسمت، بعضی از خانه‌هایی که یک یا چند ویژگی پرت یا غیرمعمول دارند را حذف می‌کنیم.\n",
+        "</font>\n",
+        "</p>\n",
+        "\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "یکی از روش‌های شناسایی و حذف داده‌های پرت، استفاده از چارک‌ها و نمودار جعبه‌ای می‌باشد.\n",
+        "پس ابتدا نمودار جعبه‌ای ستون قیمت را رسم کنید.\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "EFB0JZB_dopr"
+      },
+      "outputs": [],
+      "source": [
+        "sns.boxplot(x=data['price'])"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "8N2GCl9Hdopr"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "در صورتی که نمودار را به درستی رسم کرده باشید مشاهده خواهید کرد که بعضی از داده‌ها آنقدر پرت هستند که نمودار جعبه‌ای از حالت جعبه خارج شده است! نقاطی که در بالای نمودار هستند، داده‌های بسیار پرت می‌باشند.\n",
+        "<br>\n",
+        "داده‌های پرت ستون قیمت را با روش IQR با ضریب 1.5 حذف کنید و نمودار جعبه‌ای را مجددا رسم کنید.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "9Bradypjdopr"
+      },
+      "outputs": [],
+      "source": [
+        "Q1 = data['price'].quantile(0.25)\n",
+        "Q3 = data['price'].quantile(0.75)\n",
+        "IQR = Q3 - Q1\n",
+        "\n",
+        "lower_bound = Q1 - 1.5 * IQR\n",
+        "upper_bound = Q3 + 1.5 * IQR\n",
+        "data = data[(data['price'] >= lower_bound) & (data['price'] <= upper_bound)]\n",
+        "sns.boxplot(x=data['price'])\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "_rP8xRZTdops"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "به طور مختصر توضیح دهید که روش IQR چگونه کار می‌کند.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "PpfVGWf0dops"
+      },
+      "source": [
+        "<font face=\"B Nazanin\">\n",
+        "<div dir=rtl>\n",
+        "<p align=\"justify\">\n",
+        "<font size=4>\n",
+        "<b> <font color='#eb4034'> توضیحات پاسخ: </font></b>  لطفا اینجا بنویسید\n",
+        "</p>\n",
+        "</font>\n",
+        "</div>\n",
+        "</font>\n",
+        "<hr>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "IQR = با تفاضل چارک اول و سوم است\n",
+        "\n",
+        "\n",
+        "حال برای حذف داده های پرت از چارک اول 1.5 برابر میان چارکی را کم کرده و مرز مشخص میکنیم و سپس داده های ماقبل مرز داده پرت محسوب میشود\n",
+        "و همچنین به چارک سوم 1.5 برابر میان چارکی را اضافه میکنیم و مرز مشحص میکنیم و داده های بعد از مرز را به عنوان داده های پرت اعلام میکنیم"
+      ],
+      "metadata": {
+        "id": "bzD_bCJB5U59"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "rgCjITLNdops"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h2>\n",
+        "<font face=\"B Nazanin\" color=\"#0099cc\">\n",
+        "کاوش در داده‌ها\n",
+        "</font>\n",
+        "</h3>\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "uSDHYgzHdops"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h4>\n",
+        "<font face=\"B Nazanin\">\n",
+        "<b>1. همبستگی </b>\n",
+        "</font>\n",
+        "</h4>\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "ماتریس همبستگی (Correlation Matrix) داده‌ها را در قالب یک Heatmap مصور کنید.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "U-Cwz385dops"
+      },
+      "outputs": [],
+      "source": [
+        "selected_data = data[['price', 'square_feet', 'bedrooms', 'bathrooms', 'latitude', 'longitude', 'year']]\n",
+        "\n",
+        "corr_matrix = selected_data.corr()\n",
+        "\n",
+        "plt.figure(figsize=(5, 4))\n",
+        "sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', linewidths=0.5)\n",
+        "\n",
+        "\n",
+        "plt.title(\"Correlation Matrix Heatmap for Selected Columns\")"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "WTRCkBXcdops"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "درمورد نمودار Heatmap و عملکرد آن به طور مختصر توضیح دهید. همچنین تحلیل خود از ویژگی‌هایی که همبستگی بالایی داشتد را نیز به طور خلاصه بنویسید.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "RTr0KBfNdopu"
+      },
+      "source": [
+        "<font face=\"B Nazanin\">\n",
+        "<div dir=rtl>\n",
+        "<p align=\"justify\">\n",
+        "<font size=4>\n",
+        "<b> <font color='#eb4034'> توضیحات پاسخ: </font></b>  لطفا اینجا بنویسید\n",
+        "</p>\n",
+        "</font>\n",
+        "</div>\n",
+        "</font>\n",
+        "<hr>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "از نمودار Heatmap بیشتر برای نشان داده ماتریس همبستگی یا Correlation Matrix استفاده میکنند که با استفاده از رنگ مقایسه ای بین دیتا ها انجام میدهد\n",
+        "\n",
+        "رابطه میان متراژ خانه و تعدا اتاق خواب و وجود حمام رابطه مستقیم بالایی وجود دارد و به یکدیگر وابسته هستن"
+      ],
+      "metadata": {
+        "id": "fGztNxR0Hc8-"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "J5rUgC9Ldopu"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h4>\n",
+        "<font face=\"B Nazanin\">\n",
+        "<b>2. تاثیر ایالت بر قیمت </b>\n",
+        "</font>\n",
+        "</h4>\n",
+        "\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "در این مجموعه داده، قیمت اجاره و متراژ هر خانه مشخص شده‌است،\n",
+        "اما قیمت اجارهٔ هر فوت مربع خانه مشخص نیست. در ستون\n",
+        "<code>pps</code>\n",
+        "قیمت اجاره خانه‌ها را به ازای هر فوت مربع محاسبه و ذخیره کنید.\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "yQT8c1Fodopu"
+      },
+      "outputs": [],
+      "source": [
+        "data['pps'] = data['price'] / data['square_feet']\n",
+        "data.head()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Fo4OLlE8dopu"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "حال می‌خواهیم 10 ایالت با بیشترین میانگین قیمت اجاره بر حسب فوت مربع را بررسی کنیم. این ایالت‌ها را به ترتیب نزولی میانگین قیمت اجاره بر حسب فوت مربع با استفاده از barplot نمایش دهید کنید.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Nu1TUwbEdopu"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        " می‌توانید از توابع <code>groupby</code> و <code>sort_values</code> استفاده کنید.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "nDn89STfdopu"
+      },
+      "outputs": [],
+      "source": [
+        "grouped_data = data.groupby('cityname')['pps'].sum().reset_index()\n",
+        "sorted_data = grouped_data.sort_values(by='pps', ascending=False)\n",
+        "#sorted_data.head(10)\n",
+        "\n",
+        "top_10_data = sorted_data.head(10)\n",
+        "top_10_data.head(10)\n",
+        "\n",
+        "plt.figure(figsize=(8, 6))\n",
+        "plt.bar(top_10_data['cityname'], top_10_data['pps'], color='lightblue')\n",
+        "\n",
+        "plt.xlabel('cityname')\n",
+        "plt.ylabel('pps')\n",
+        "\n",
+        "plt.title('Top 10 Prices for Products')\n",
+        "plt.xticks(rotation=45)\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "kywGssZ8dopu"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h4>\n",
+        "<font face=\"B Nazanin\">\n",
+        "<b>3. تاثیر فاصله از مرکز شهر بر قیمت </b>\n",
+        "</font>\n",
+        "</h4>\n",
+        "\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "در ادامه می‌خواهیم بررسی کنیم که تاثیر فاصله خانه از مرکز شهر بر قیمت اجاره هر فوت مربع خانه چگونه است. بدین منظور شهر دالاس را بررسی خواهیم کرد. ابتدا خانه‌هایی که در شهر دالاس قرار دارند را در یک دیتافریم جدید ذخیره کنید.\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "KMiBJF0Cdopu"
+      },
+      "outputs": [],
+      "source": [
+        "dallas = data[data['cityname'] == 'Dallas']\n",
+        "dallas.head()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "_1GlffvHdopu"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "با داشتن طول و عرض جغرافیایی خانه‌ها و استفاده از نمودار پراکندگی (Scatter plot) می‌توانیم بررسی را انجام دهیم.\n",
+        "رنگ هر نقطه باید نشان دهنده قیمت اجاره هر فوت مربع خانه باشد و نوار رنگ نشان دهنده قیمت‌های متانظر با طیف رنگی نیز باید در کنار نمودار نمایش داده شود. مختصات مرکز شهر دالاس در زیر آمده است. مرکز شهر را نیز با یک نقطه در نمودار نمایش دهید.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "xPyVR-MDdopv"
+      },
+      "source": [
+        "$$\\text{latitude: } 32.77653 $$\n",
+        "$$\\text{longitude: } -96.79708 $$"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "VC7wI5UQdopw"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "از آنجایی که تعداد نقاط زیاد است، بهتر است سایز نقاط را برابر با 10 قرار دهید تا نقاط بهتر نمایش داده شوند\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "rAUKlBhtdopw"
+      },
+      "outputs": [],
+      "source": [
+        "fig, ax = plt.subplots(figsize = (9, 7))\n",
+        "\n",
+        "city_center = {'latitude': 32.77653, 'longitude': -96.79708}\n",
+        "\n",
+        "\n",
+        "\n",
+        "scatter = sns.scatterplot(\n",
+        "    x='longitude', y='latitude',\n",
+        "    hue='pps', data=dallas,\n",
+        "    palette='coolwarm', s=10, edgecolor='k', legend=False)\n",
+        "\n",
+        "\n",
+        "plt.scatter(city_center['longitude'], city_center['latitude'],\n",
+        "            color='red', s=20, label='City Center', edgecolor='black')\n",
+        "\n",
+        "plt.title('Impact of Distance from City Center on Rent per Sqft (Dallas)', fontsize=14)\n",
+        "plt.xlabel('Longitude')\n",
+        "plt.ylabel('Latitude')"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "kfI69KuXdopw"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "می‌توان عکس این منطقه از جهان را پشت نقاط رسم شده قرار داد تا دیدی واقعی‌تر نسبت به محل قرار‌گیری خانه‌ها به‌دست آوریم. با استفاده از محدوده‌ی محور افقی و عمودی نمودار، محدوده‌ی مورد نظر را با استفاده از نقشه‌های گوگل دریافت کرده‌ایم که در عکس <code>dallas.png</code>  ذخیره شده است. با استفاده از متد <code>imshow</code> این عکس را پشت نمودار قرار می‌دهیم.\n",
+        "خروجی مورد انتظار این تصویر است:\n",
+        "</font>\n",
+        "</p>\n",
+        "\n",
+        "\n",
+        "<p style=\"text-align:center;\"><img src=\"./images/expected.png\" alt=\"dallas_plot\"></p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "nIblIPIXdopw"
+      },
+      "outputs": [],
+      "source": [
+        "import matplotlib.image as mpimg\n",
+        "img = mpimg.imread('dallas.png')\n",
+        "ax.imshow(img, extent=[-97, -96.5, 32.55, 33.05], aspect='auto')\n",
+        "fig"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "m6Hm1-UEdopx"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "برداشت خود را در رابطه با تاثیر فاصله خانه از مرکز شهر بر قیمت اجاره هر فوت مربع خانه بنویسید.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "0Pu9ki1vdopx"
+      },
+      "source": [
+        "<font face=\"B Nazanin\">\n",
+        "<div dir=rtl>\n",
+        "<p align=\"justify\">\n",
+        "<font size=4>\n",
+        "<b> <font color='#eb4034'> توضیحات پاسخ: </font></b>  لطفا اینجا بنویسید\n",
+        "</p>\n",
+        "</font>\n",
+        "</div>\n",
+        "</font>\n",
+        "<hr>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "با افزایش فاصله از مرکز شهر قیمت اجاره برای هر متر مربع کاهش پیدا میکند"
+      ],
+      "metadata": {
+        "id": "VVMRqHYIIrzc"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "PAQRRilbdopx"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h4>\n",
+        "<font face=\"B Nazanin\">\n",
+        "<b>4. تاثیر شهر بر قیمت </b>\n",
+        "</font>\n",
+        "</h4>\n",
+        "\n",
+        "\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "در این بخش می‌خواهیم بررسی کنیم که در شهرهای مختلف یک ایالت قیمت اجاره هر فوت مربع خانه چگونه است. بدین منظور ایالت کالیفرنیا را بررسی خواهیم کرد. ابتدا خانه‌هایی که در این ایالت قرار دارند را در یک دیتافریم جدید ذخیره کنید.\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "mPiiOmsYdopx"
+      },
+      "outputs": [],
+      "source": [
+        "CA = data[data['cityname'] == 'California' ]\n",
+        "CA.head()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "ltqhxmemdopx"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "به منظور نمایش بهتر داده‌ها در نمودار با استفاده از روش IQR با ضریب 1.5 داده‌های پرت را بر حسب ستون <code>pps</code> حذف کنید.\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "1_PWQ1Godopx"
+      },
+      "outputs": [],
+      "source": [
+        "Q1_2 = data['pps'].quantile(0.25)\n",
+        "Q3_2 = data['pps'].quantile(0.75)\n",
+        "IQR_2 = Q3_2 - Q1_2\n",
+        "\n",
+        "lower_bound_pps = Q1_2 - 1.5 * IQR_2\n",
+        "upper_bound_pps = Q3_2 + 1.5 * IQR_2\n",
+        "data = data[(data['pps'] >= lower_bound_pps) & (data['pps'] <= upper_bound_pps)]\n",
+        "\n",
+        "CA = data[data['cityname'] == 'California' ]\n",
+        "CA.head()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "k7Q1NZ9Ddopx"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "حال با نمودار Scatter plot مشابه بخش قبل داده‌ها را نمایش دهید.\n",
+        "تصویر <code>CA.png</code> شامل نقشه بخشی از ایالت کالیفرنیا می‌باشد که محدوده آن در زیر آمده است.\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "uBRVf386dopy"
+      },
+      "source": [
+        "$$\\text{latitude: } 33.0391 \\rightarrow 38.7586$$\n",
+        "$$\\text{longitude: }-123.6021 \\rightarrow  -116.5354$$"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "p_lEKeoNdopy"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "توجه شود که در این بخش علاوه بر مشخص کردن محدوده تصویر، محدوده کلی نمودار را نیز باید به مختصات‌های گفته شده محدود کنید زیرا داده‌های ما شامل تمام داده‌های ایالت کالیفرنیا می‌باشد و در صورتی که محدوده نمودار مشخص نشود، داده‌های خارج از محدوده نقشه نیز نمایش داده خواهند شد.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "82D_vxKRdopy"
+      },
+      "outputs": [],
+      "source": [
+        "fig, ax = plt.subplots(figsize = (9, 7))\n",
+        "\n",
+        "city_center_California = {'latitude': 38.7586, 'longitude': -116.5354}\n",
+        "\n",
+        "\n",
+        "\n",
+        "scatter_California = sns.scatterplot(\n",
+        "    x='longitude', y='latitude',\n",
+        "    hue='pps', data=CA,\n",
+        "    palette='coolwarm', s=50 , edgecolor='k', legend=False)\n",
+        "\n",
+        "\n",
+        "plt.scatter(city_center['longitude'], city_center['latitude'],\n",
+        "            color='red', s=200, label='City Center', edgecolor='black')\n",
+        "\n",
+        "plt.title('Impact of Distance from City Center on Rent per Sqft (California)', fontsize=14)\n",
+        "plt.xlabel('Longitude')\n",
+        "plt.ylabel('Latitude')\n",
+        "\n",
+        "\n",
+        "img = mpimg.imread('CA.png')\n",
+        "ax.imshow(img, extent=[-97, -96.5, 32.55, 33.05], aspect='auto')\n",
+        "\n",
+        "plt.show()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "NZgzF-tydopy"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "برداشت خود را در رابطه با تاثیر شهر بر قیمت اجاره هر فوت مربع خانه بنویسید.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "JwxVIi2sdopy"
+      },
+      "source": [
+        "<font face=\"B Nazanin\">\n",
+        "<div dir=rtl>\n",
+        "<p align=\"justify\">\n",
+        "<font size=4>\n",
+        "<b> <font color='#eb4034'> توضیحات پاسخ: </font></b>  لطفا اینجا بنویسید\n",
+        "</p>\n",
+        "</font>\n",
+        "</div>\n",
+        "</font>\n",
+        "<hr>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "uZI3lGBcdopz"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h4>\n",
+        "<font face=\"B Nazanin\">\n",
+        "<b>5. رابطه بین متراژ و قیمت </b>\n",
+        "</font>\n",
+        "</h4>\n",
+        "\n",
+        "\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "با استفاده از نمودار توام (Joint plot) رابطه بین متراژ خانه و قیمت اجاره خانه در شهر دالاس را بررسی کنید.\n",
+        "</font>\n",
+        "</p>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "YILMZqsidopz"
+      },
+      "outputs": [],
+      "source": [
+        "sns.jointplot(x='square_feet', y='price', data=data)\n",
+        "plt.xlabel('square_feet')\n",
+        "plt.ylabel('price')\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "F3KsFKnzdopz"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "برداشت شما از نمودار چیست؟ همچنین در رابطه با نحوه‌ی رسم این نمودار و کاربرد‌های آن توضیح دهید.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "8XRQ7ZdNdopz"
+      },
+      "source": [
+        "<font face=\"B Nazanin\">\n",
+        "<div dir=rtl>\n",
+        "<p align=\"justify\">\n",
+        "<font size=4>\n",
+        "<b> <font color='#eb4034'> توضیحات پاسخ: </font></b>  لطفا اینجا بنویسید\n",
+        "</p>\n",
+        "</font>\n",
+        "</div>\n",
+        "</font>\n",
+        "<hr>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "با افزایش متراژ قیمت اجاره برای هر متر مربع به شدت افزایش می یابد"
+      ],
+      "metadata": {
+        "id": "avlpbVF4JLl6"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "tXCYxOZudop0"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h4>\n",
+        "<font face=\"B Nazanin\">\n",
+        "<b>6. تاثیر آسانسور بر قیمت</b>\n",
+        "</font>\n",
+        "</h4>\n",
+        "\n",
+        "\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "در این بخش می‌خواهیم تاثیر آسانسور بر قیمت اجاره خانه را بررسی کنیم. با نمودار Kdeplot توزیع قیمت اجاره خانه‌هایی که دارای آسانسور هستند و خانه‌هایی که آسانسور ندارند را بررسی کنید.\n",
+        "<br>\n",
+        "وجود یا عدم وجود آسانسور باید از ستون <code>amenities</code> استخراج شود. در صورتی که خانه‌ای دارای آسانسور باشد در ستون <code>amenities</code> عبارت <code>Elevator</code> وجود دارد.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "4jn4bktodop0"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "نمودار Kdeplot هر دو دسته را در یک Axes نمایش دهید.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "cLwnK1d4dop0"
+      },
+      "outputs": [],
+      "source": [
+        "data['has_elevator'] = data['amenities'].apply(lambda x: 'Elevator' in x)\n",
+        "\n",
+        "data_with_elevator = data[data['has_elevator'] == True]\n",
+        "data_without_elevator = data[data['has_elevator'] == False]\n",
+        "\n",
+        "\n",
+        "plt.figure(figsize=(10, 6))\n",
+        "sns.kdeplot(data_with_elevator['price'], shade=True, label='With Elevator', color='blue')\n",
+        "sns.kdeplot(data_without_elevator['price'], shade=True, label='Without Elevator', color='red')\n",
+        "\n",
+        "\n",
+        "plt.title('KDE Plot of  Prices: With vs Without Elevator')\n",
+        "plt.xlabel('Price')\n",
+        "plt.ylabel('Density')\n",
+        "plt.legend()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "cRc0M9cudop0"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "برداشت خود را در رابطه با تاثیر آسانسور بر قیمت اجاره خانه بنویسید.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "HvAf0-APdop0"
+      },
+      "source": [
+        "<font face=\"B Nazanin\">\n",
+        "<div dir=rtl>\n",
+        "<p align=\"justify\">\n",
+        "<font size=4>\n",
+        "<b> <font color='#eb4034'> توضیحات پاسخ: </font></b>  لطفا اینجا بنویسید\n",
+        "</p>\n",
+        "</font>\n",
+        "</div>\n",
+        "</font>\n",
+        "<hr>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "خانه های دارای اسانسور مقدار کمی گرون تر از خانه های بدون اسانسور می باشند اما تفاوت زیادی وجود ندارد"
+      ],
+      "metadata": {
+        "id": "no7jATFaJduV"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "TuDJPB5Ndop0"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h4>\n",
+        "<font face=\"B Nazanin\">\n",
+        "<b>7. بررسی توزیع قیمت</b>\n",
+        "</font>\n",
+        "</h4>\n",
+        "\n",
+        "\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "در این بخش می‌خواهیم توزیع قیمت اجاره خانه‌ها در دو ایالت واشنگتون و تگزاس را بررسی کنیم. برای این کار ابتدا خانه‌هایی که در این دو ایالت قرار دارند را در یک دیتافریم جدید ذخیره کنید و سپس با نمودار ویالنی (Violin plot) توزیع قیمت اجاره خانه‌ها را برای این دو ایالت نمایش دهید.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "eHnCiPZHdop1"
+      },
+      "outputs": [],
+      "source": [
+        "#filtered_data = data[data['state'].isin(['Washington', 'Texas City'])]\n",
+        "filtered_data = data[(data['cityname'] == 'Washington') | (data['cityname'] == 'Texas City')]\n",
+        "#filtered_data = data.query(\"cityname == 'Washington' or cityname == 'Texas City'\")\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "fig, ax = plt.subplots(figsize=(10, 6))\n",
+        "sns.violinplot(x='cityname', y='price', data=filtered_data)\n",
+        "\n",
+        "plt.title('Violin Plot of  Prices in Washington and Texas City')\n",
+        "plt.xlabel('cityname')\n",
+        "plt.ylabel('Price')"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "nHdGOCgtdop1"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "تحلیل خود از نمودار را بنویسید. همچنین توضیح دهید که نمودار ویالنی برای تحلیل بصری در چه مواقعی مناسب است.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "ty3d33ycdop1"
+      },
+      "source": [
+        "<font face=\"B Nazanin\">\n",
+        "<div dir=rtl>\n",
+        "<p align=\"justify\">\n",
+        "<font size=4>\n",
+        "<b> <font color='#eb4034'> توضیحات پاسخ: </font></b>  لطفا اینجا بنویسید\n",
+        "</p>\n",
+        "</font>\n",
+        "</div>\n",
+        "</font>\n",
+        "<hr>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "\n",
+        "\n",
+        "1.   مقایسه توزیع چند گروه یا دسته\n",
+        "2.   نمایش توزیع داده‌ها و شناسایی الگوها\n",
+        "3.   مقایسه توزیع‌ها با حجم‌های متفاوت\n",
+        "4.    تشخیص چولگی\n",
+        "\n",
+        "\n",
+        "در واشنگتون قیمت های اجاره به شدت تنوع دارد و یک قیمت ثابتی برای اجاره وجود ندارد اما در تگزاس قیمت اجاره معمولا ثابت است"
+      ],
+      "metadata": {
+        "id": "RdG5Ao-VJ9UC"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "vlNmGem-dop1"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h4>\n",
+        "<font face=\"B Nazanin\">\n",
+        "<b>8. تاثیر استاندارد سازی</b>\n",
+        "</font>\n",
+        "</h4>\n",
+        "\n",
+        "\n",
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "در این بخش می‌خواهیم تاثیر استاندارد سازی بر ویژگی‌ها را بررسی کنیم. در تصویر زیر نمودار پراکندگی برای دو ویژگی <code>price</code> و <code>bedrooms</code> رسم شده است.\n",
+        "همانطور که مشاهده می‌کنید در صورتی که بازه نمودار در هر دو محور را یکسان در نظر بگیریم، اطلاعات مفیدی از نمودار قابل برداشت نمی‌باشد.\n",
+        "<br>\n",
+        "یک کپی از دیتافریم بگیرید و در دیتافریم جدید این دو ویژگی را استاندارد کنید و سپس نمودار را مجددا رسم کنید.\n",
+        "</font>\n",
+        "</p>\n",
+        "<p style=\"text-align:center;\"><img src=\"./images/scatter.png\" alt=\"Scatter Plot\", width=700></p>\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "X9qcfbw8dop1"
+      },
+      "outputs": [],
+      "source": [
+        "data_copy = data.copy()\n",
+        "scaler = StandardScaler()\n",
+        "data_copy[['price', 'bedrooms']] = scaler.fit_transform(data_copy[['price', 'bedrooms']])\n",
+        "\n",
+        "\n",
+        "plt.figure(figsize=(8, 6))\n",
+        "sns.scatterplot(x='bedrooms', y='price', data=data_copy)\n",
+        "plt.title('Scatter Plot of Standardized Price vs Bedrooms')\n",
+        "plt.xlabel('Standardized Bedrooms')\n",
+        "plt.ylabel('Standardized Price')"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "MPrTsIg0dop1"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "استاندارد سازی چه تاثیری بر نمودار داشت؟ همچنین به طور مختصر بررسی کنید که استاندارد‌سازی ویژگی‌ها چگونه می‌تواند باعث بهبود الگوریتم‌های یادگیری ماشین شود.\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "JBL5rTpadop2"
+      },
+      "source": [
+        "<font face=\"B Nazanin\">\n",
+        "<div dir=rtl>\n",
+        "<p align=\"justify\">\n",
+        "<font size=4>\n",
+        "<b> <font color='#eb4034'> توضیحات پاسخ: </font></b>  لطفا اینجا بنویسید\n",
+        "</p>\n",
+        "</font>\n",
+        "</div>\n",
+        "</font>\n",
+        "<hr>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "به شدت واریانس نمودار را افزایش داد\n",
+        "\n",
+        "استانداردسازی ویژگی‌ها باعث می‌شود مقیاس ویژگی‌ها برابر شود و بر پایه میانگین 0 و انحراف معیار 1 تنظیم شوند. این کار برای تحلیل‌های آماری و الگوریتم‌های یادگیری ماشین بسیار مفید است."
+      ],
+      "metadata": {
+        "id": "n9LF9um-LKxD"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "YgCzOuHZClQl"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<h2>\n",
+        "<font face=\"B Nazanin\" color=\"#0099cc\">\n",
+        "بخش امتیازی"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "JOZE25DwHh78"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "<b> <font color='#eb4034'> تذکر: </font></b>\n",
+        "برای دریافت نمره‌ی امتیازی، تنها کافیست به یکی از دو مورد (الف) یا (ب) پاسخ دهید. پاسخ‌دهی به هر دو سوال نمره‌ی مازاد نخواهد داشت."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "G6vtnSsTCsna"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "الف) در مورد مفاهیم کشیدگی (Kurtosis) و چولگی (Skewness) حول توزیع‌های آماری مطالعه کنید و به دو سوال زیر پاسخ دهید:\n",
+        "<ol>\n",
+        "  <li>\n",
+        "    این معیار‌ها به بررسی چه خواصی از یک توزیع آماری کمک می‌کنند؟\n",
+        "  </li>\n",
+        "  <li>\n",
+        "  در مورد توزیع نرمال به خصوص، چگونه می‌توان بدون بررسی مستقیم نمودار و با استفاده از معیار‌های آماری ساده، شکل چولگی نمودار را تشخیص داد؟\n",
+        "  شکل چولگی ویژگی <code>price</code> را بر این اساس حدس بزنید و حدس خود را با رسم نمودار تایید کنید.\n",
+        "  </li>\n",
+        "</ol>\n",
+        "</font>\n",
+        "</p>\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "چولگی (Skewness) معیاری است که عدم تقارن توزیع داده‌ها نسبت به میانگین را نشان می‌دهد. در توزیع‌های متقارن (مانند توزیع نرمال) چولگی برابر با صفر است. هرچه مقدار چولگی بیشتر یا کمتر از صفر باشد، توزیع از نظر تقارن به یک سمت متمایل شده است\n",
+        "\n",
+        "\n",
+        "چولگی مثبت (Right-Skewed یا Positively Skewed):\n",
+        "\n",
+        "در این حالت، توزیع به سمت راست کشیده می‌شود. داده‌های بیشتری در سمت چپ نمودار متمرکز هستند و دنباله توزیع به سمت راست ادامه دارد.\n",
+        "مثال: توزیع درآمد. اکثر افراد درآمدی کمتر از میانگین دارند، ولی برخی افراد با درآمدهای بسیار بالا دنباله توزیع را به سمت راست می‌کشند.\n",
+        "\n",
+        "\n",
+        "چولگی منفی (Left-Skewed یا Negatively Skewed):\n",
+        "\n",
+        "در این حالت، توزیع به سمت چپ کشیده می‌شود. بیشتر داده‌ها در سمت راست متمرکز هستند و دنباله توزیع به سمت چپ کشیده شده است.\n",
+        "مثال: توزیع نمرات آزمون در یک آزمون ساده. بیشتر دانش‌آموزان نمرات بالایی کسب کرده‌اند و تعداد کمی نمرات پایین دارند که دنباله چپ را تشکیل می‌دهند\n",
+        "\n",
+        "\n",
+        "کشیدگی (Kurtosis) معیاری است که میزان پهنای قله توزیع داده‌ها و همچنین اندازه دنباله‌ها را نسبت به توزیع نرمال توصیف می‌کند. کشیدگی توزیع نرمال برابر با 3 در نظر گرفته می‌شود و اغلب به صورت تعدیل‌شده (adjusted) به گونه‌ای محاسبه می‌شود که مقدار توزیع نرمال برابر با صفر باشد.\n",
+        "\n",
+        "کشیدگی مثبت (Leptokurtic):\n",
+        "\n",
+        "در این حالت، قله توزیع تیزتر و بلندتر از توزیع نرمال است و دنباله‌ها ضخیم‌تر (پهن‌تر) هستند. به این معنی که داده‌های زیادی نزدیک به میانگین متمرکز شده‌اند، اما تعداد داده‌های موجود در دنباله‌ها نیز بیشتر است.\n",
+        "در این توزیع‌ها، احتمال وقوع داده‌های بسیار بزرگ یا بسیار کوچک (داده‌های پرت) بیشتر است.\n",
+        "\n",
+        "\n",
+        "کشیدگی منفی (Platykurtic):\n",
+        "\n",
+        "این نوع توزیع پهن‌تر و مسطح‌تر از توزیع نرمال است. داده‌های نزدیک به میانگین پراکندگی کمتری دارند و دنباله‌ها نیز نازک‌تر و کوتاه‌تر هستند.\n",
+        "در این حالت، داده‌ها نسبت به توزیع نرمال کمتر در دنباله‌ها قرار می‌گیرند."
+      ],
+      "metadata": {
+        "id": "bbXljnBrLcZQ"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "skewness_value = skew(data['price'])\n",
+        "print(f\"Skewness: {skewness_value}\")\n",
+        "\n",
+        "\n",
+        "plt.figure(figsize=(8, 6))\n",
+        "sns.histplot(data['price'], kde=True, color='blue')\n",
+        "plt.title(f\"Distribution of Price (Skewness: {skewness_value:.2f})\")\n",
+        "plt.xlabel('Price')\n",
+        "plt.ylabel('Frequency')"
+      ],
+      "metadata": {
+        "id": "GG8fQZ9aBeiV"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "J44eZneFFa49"
+      },
+      "source": [
+        "<div dir=rtl>\n",
+        "<font face=\"B Nazanin\" size=4>\n",
+        "ب) در مورد روش حذف مقادیر پرت به کمک معیار Z-score مطالعه کنید.\n",
+        "     برای ویژگی <code>price</code> قبل‌تر از طریق روش IQR مقادیر پرت را حذف کرده بودیم، این بار با استفاده از روش Z-score مقادیر پرت را با آستانه Z = ±3\n",
+        "     حذف کنید.\n",
+        "     برای حذف مقادیر پرت، از توابع آماده‌ای که مستقیما Z-score را محاسبه می‌کنند استفاده نکنید.\n",
+        "</div>\n",
+        "</font>\n"
+      ]
+    }
+  ],
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "display_name": "envr",
+      "language": "python",
+      "name": "python3"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "ipython",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.12.6"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
